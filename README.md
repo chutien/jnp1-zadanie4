@@ -1,1 +1,1 @@
-# jnp1zadanie4
+# jnp1-zadanie4
