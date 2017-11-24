@@ -48,7 +48,7 @@ template <class R, R radius, class P> class ApplePie : public Pie<R, radius>{
         ApplePie(int initialStock, P price);
         void sell();
         P getPrice();
-}
+};
 
 //TODO dokonac walidacji typow: R calkowitoliczbowy, P zmienno przecinkowy. 
 template <class R, R radius, class P> ApplePie<R, radius, P>::ApplePie(int initialStock, P price) 
