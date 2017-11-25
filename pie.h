@@ -21,9 +21,10 @@ template <class R, R radius> int Pie<R, radius>::getStock(){
     return stock;
 }
 
-//TODO dokonac walidacji typow: R calkowitoliczbowy. 
 template <class R, R radius> Pie<R, radius>::Pie(const int initialStock) 
     : stock(initialStock){ 
+    // is_integral pozwala na boole i chary, nie wiem czy powinien.
+    assert((std::is_integral<R>::value));
     assert(initialStock >= 0);
 }
 
@@ -50,9 +51,9 @@ template <class R, R radius, class P> class ApplePie : public Pie<R, radius>{
         P getPrice();
 };
 
-//TODO dokonac walidacji typow: R calkowitoliczbowy, P zmienno przecinkowy. 
 template <class R, R radius, class P> ApplePie<R, radius, P>::ApplePie(int initialStock, P price) 
     : Pie<R, radius>::Pie(initialStock){
+    assert((std::is_floating_point<P>::value));
     this->price = price;
 }
 
