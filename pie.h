@@ -1,20 +1,20 @@
 #ifndef _PIE_
 #define _PIE_
 
-//TODO ta seria odrobine za wolno zbiega
+// Formuła Viète'y
 constexpr double get_pi(){
-    double res = 0;
-    for (int i = 0; i < 10000; i++)
-        if (i & 1)
-            res -= (double)1/(2 * i + 1);
-        else
-            res += (double)1/(2 * i + 1);
-    return 4 * res;
+    long double res = 1;
+    long double numerator = 0;
+    for (int i = 0; i < 100; i++){
+        numerator = sqrt(2 + numerator);
+        res = res * numerator / 2;
+    }
+    return 2 / (res);
 }
 
 template <class R, R radius> class Pie {
     protected:
-        static constexpr double pi = get_pi();
+        static constexpr long double pi = get_pi();
         int stock;
     
     public:

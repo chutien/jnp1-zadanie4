@@ -6,7 +6,8 @@ using namespace std;
 string s = "hhhh";
     
 int main(){
-    CherryPie<int, 10> ciacho(6);
+    std::cout << std::setprecision(8) << std::fixed;
+    CherryPie<int, 1> ciacho(6);
     cout << ciacho.getArea() << " " << ciacho.getStock() << endl;
     
     //ApplePie<unsigned int, 100, int> jablko(2, 12); //OK - asertion failed, price must be floating point
