@@ -1,9 +1,20 @@
 #ifndef _PIE_
 #define _PIE_
 
+//TODO ta seria odrobine za wolno zbiega
+constexpr double get_pi(){
+    double res = 0;
+    for (int i = 0; i < 10000; i++)
+        if (i & 1)
+            res -= (double)1/(2 * i + 1);
+        else
+            res += (double)1/(2 * i + 1);
+    return 4 * res;
+}
+
 template <class R, R radius> class Pie {
     protected:
-        static constexpr double pi = 3.141; //TODO wyliczac w czasie kompilacji
+        static constexpr double pi = get_pi();
         int stock;
     
     public:
