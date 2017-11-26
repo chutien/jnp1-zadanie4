@@ -1,6 +1,9 @@
 #ifndef _PIE_
 #define _PIE_
 
+#include <cassert>
+#include <cmath>
+
 // Formuła Viète'y
 constexpr double get_pi(){
     long double res = 1;

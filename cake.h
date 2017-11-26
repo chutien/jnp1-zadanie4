@@ -1,6 +1,8 @@
 #ifndef _CAKE_
 #define _CAKE_
 
+#include <cassert>
+
 // BBP-Type Formula
 constexpr double get_ln2(){
     long double res = 0, denom = 1;

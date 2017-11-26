@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 #include "pie.h"
 #include "cake.h"
+#include "bakery.h"
 
 using namespace std;
 
@@ -18,6 +19,13 @@ void cake_test(){
     //krem.sell(); //OK - asertion failed
     cout << krem.getArea() << endl;
     
+}
+
+void bakery_test(){
+    CreamCake<int, 1, 1, double> krem(2, 3.21);
+    CheeseCake<int, 5, 2> ciasto(5);
+    Bakery<double, int, 30, CreamCake<int, 1, 1, double>, CheeseCake<int, 5, 2> > piek(krem, ciasto);
+    cout << piek.getProfits() << endl;
 }
 
 int main(){
@@ -40,6 +48,7 @@ int main(){
     CherryPie<int, 3> ciacho2(6);
     
     cake_test();
+    bakery_test();
     
     return 0;
 }
