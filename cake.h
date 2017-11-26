@@ -1,10 +1,14 @@
 #ifndef _CAKE_
 #define _CAKE_
 
-// TODO liczyc ln 2
+// BBP-Type Formula
 constexpr double get_ln2(){
-    long double res = 0.693;
-    return (res);
+    long double res = 0, denom = 1;
+    for (int i = 0; i < 100; i++){
+        res += 1.0 / (2 * i + 1) / denom;
+        denom *= 9;
+    }
+    return res * 2 / 3;
 }
 
 

@@ -16,6 +16,7 @@ void cake_test(){
     cout << krem.getStock() << endl;
     krem.sell();
     //krem.sell(); //OK - asertion failed
+    cout << krem.getArea() << endl;
     
 }
 
