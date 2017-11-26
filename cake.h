@@ -7,6 +7,7 @@ constexpr double get_ln2(){
     return (res);
 }
 
+
 template <class T, T length, T width> class Cake {
     protected:
         static constexpr long double ln2 = get_ln2();
@@ -30,40 +31,46 @@ template <class T, T length, T width> int Cake<T, length, width>::getStock(){
 template <class T, T length, T width> 
     Cake<T, length, width>::Cake(const int initialStock) : stock(initialStock){ 
     // is_integral pozwala na boole i chary, nie wiem czy powinien.
-    assert((std::is_integral<T>::value));
+    static_assert(std::is_integral<T>::value, 
+                  "Cake got wrong parameter: lenght type should be integral.");
     assert(initialStock >= 0);
 }
 
 
-template <class T, T length, T width> class CheeseCake : public Cake<T, length, width>{
+template <class T, T length, T width> class CheeseCake 
+    : public Cake<T, length, width>{
     using Cake<T, length, width>::Cake;
 };
 
 
-/*template <class R, R radius, class P> class ApplePie : public Pie<R, radius>{
+template <class T, T length, T width, class P> class CreamCake 
+    : public Cake<T, length, width>{
     private:
         P price;
 
     public:
-        ApplePie(int initialStock, P price);
+        CreamCake(int initialStock, P price);
         void sell();
         P getPrice();
 };
 
-template <class R, R radius, class P> ApplePie<R, radius, P>::ApplePie(int initialStock, P price) 
-    : Pie<R, radius>::Pie(initialStock){
-    assert((std::is_floating_point<P>::value));
+template <class T, T length, T width, class P> 
+    CreamCake<T, length, width, P>::CreamCake(int initialStock, P price) 
+    : Cake<T, length, width>::Cake(initialStock){
+    static_assert(std::is_floating_point<P>::value, 
+                  "Cake got wrong parameter: price type should be floating point.");
     this->price = price;
 }
 
-template <class R, R radius, class P> void ApplePie<R, radius, P>::sell(){
-    assert((Pie<R, radius>::stock > 0));
-    Pie<R, radius>::stock--;
+template <class T, T length, T width, class P> void 
+    CreamCake<T, length, width, P>::sell(){
+    assert((Cake<T, length, width>::stock > 0));
+    Cake<T, length, width>::stock--;
 }
 
-
-template <class R, R radius, class P> P ApplePie<R, radius, P>::getPrice(){
+template <class T, T length, T width, class P> P 
+    CreamCake<T, length, width, P>::getPrice(){
     return price;
-}*/
+}
 
 #endif // _CAKE_

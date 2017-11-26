@@ -7,8 +7,16 @@ using namespace std;
 string s = "hhhh";
     
 void cake_test(){
-    Cake<long long, 5, 2> ciasto(5);
+    CheeseCake<long long, 5, 2> ciasto(5);
     cout << ciasto.getArea() << endl;
+    
+    CreamCake<int, 1, 1, double> krem(2, 3.21);
+    cout << krem.getPrice() << endl;
+    krem.sell();
+    cout << krem.getStock() << endl;
+    krem.sell();
+    //krem.sell(); //OK - asertion failed
+    
 }
 
 int main(){
