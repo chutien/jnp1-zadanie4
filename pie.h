@@ -15,66 +15,66 @@ constexpr double get_pi(){
     return 2 / res;
 }
 
-
-template <class R, R radius> class Pie {
+template <class R, R radius, class P, bool sellable> class Pie {
     protected:
         static constexpr long double pi = get_pi();
         int stock;
+        bool is_sellable;
+        //TODO: Empty struct
+        P price;
     
     public:
-        explicit Pie(int initialStock);
-        static double getArea();
+        //TODO: poblokować
+        Pie(int initialStock);
+        Pie(int initialStock, P price);
         int getStock();
-};
-
-template <class R, R radius> double Pie<R, radius>::getArea(){
-    return radius * radius * pi;
-}
-
-
-template <class R, R radius> int Pie<R, radius>::getStock(){
-    return stock;
-}
-
-template <class R, R radius> Pie<R, radius>::Pie(const int initialStock) 
-    : stock(initialStock){ 
-    // is_integral pozwala na boole i chary, nie wiem czy powinien.
-    static_assert(std::is_integral<R>::value, 
-                  "Pie got wrong parameter: radius type should be integral.");
-    assert(initialStock >= 0);
-}
-
-
-template <class R, R radius> class CherryPie : public Pie<R, radius>{
-    using Pie<R, radius>::Pie;
-};
-
-
-template <class R, R radius, class P> class ApplePie : public Pie<R, radius>{
-    private:
-        P price;
-
-    public:
-        ApplePie(int initialStock, P price);
+        static double getArea();
         void sell();
         P getPrice();
 };
 
-template <class R, R radius, class P> 
-    ApplePie<R, radius, P>::ApplePie(int initialStock, P price) 
-    : Pie<R, radius>::Pie(initialStock){
+template <class R, R radius, class P, bool sellable> Pie<R, radius, P, sellable>::Pie(const int initialStock) 
+    : stock(initialStock){ 
+    // is_integral pozwala na boole i chary, nie wiem czy powinien.
+    static_assert(std::is_integral<R>::value, 
+                  "Pie got wrong parameter: radius type should be integral.");
+    /*Pie<R, radius, P>::Pie(int initialStock, P price) {
     static_assert(std::is_floating_point<P>::value, 
-                  "Pie got wrong parameter: price type should be floating point.");
+                  "Pie got wrong parameter: price type should be floating point.");*/
+    assert(initialStock >= 0);
+}
+
+template <class R, R radius, class P, bool sellable> Pie<R, radius, P, sellable>::Pie(const int initialStock, P price) 
+    : stock(initialStock){ 
+    // is_integral pozwala na boole i chary, nie wiem czy powinien.
+    static_assert(std::is_integral<R>::value, 
+                  "Pie got wrong parameter: radius type should be integral.");
+    /*Pie<R, radius, P>::Pie(int initialStock, P price) {
+    static_assert(std::is_floating_point<P>::value, 
+                  "Pie got wrong parameter: price type should be floating point.");*/
+    assert(initialStock >= 0);
     this->price = price;
 }
 
-template <class R, R radius, class P> void ApplePie<R, radius, P>::sell(){
-    assert((Pie<R, radius>::stock > 0));
-    Pie<R, radius>::stock--;
+template <class R, R radius, class P, bool sellable> double Pie<R, radius, P, sellable>::getArea(){
+    return radius * radius * pi;
 }
 
-template <class R, R radius, class P> P ApplePie<R, radius, P>::getPrice(){
+template <class R, R radius, class P, bool sellable> int Pie<R, radius, P, sellable>::getStock(){
+    return stock;
+}
+
+template <class R, R radius, class P, bool sellable> void Pie<R, radius, P, sellable>::sell(){
+    assert((Pie<R, radius, P, sellable>::stock > 0));
+    Pie<R, radius, P, sellable>::stock--;
+}
+
+template <class R, R radius, class P, bool sellable> P Pie<R, radius, P, sellable>::getPrice(){
     return price;
 }
+
+template <class R, R radius> using CherryPie = Pie<R, radius, double, false> ;
+
+template <class R, R radius, class P> using ApplePie = Pie<R, radius, P, true>;
 
 #endif // _PIE_
