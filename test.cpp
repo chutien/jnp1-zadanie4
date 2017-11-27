@@ -22,10 +22,40 @@ void cake_test(){
 }
 
 void bakery_test(){
-    CreamCake<int, 1, 1, double> krem(2, 3.21);
+  /*
+  CreamCake<int, 1, 1, double> krem(2, 3.21);
     CheeseCake<int, 5, 2> ciasto(5);
+    CheeseCake<int, 5, 2> ciasto2(4);
     Bakery<double, int, 30, CreamCake<int, 1, 1, double>, CheeseCake<int, 5, 2> > piek(krem, ciasto);
     cout << piek.getProfits() << endl;
+  */
+    //Bakery<double, int, 30, CreamCake<int, 1, 1, double>, CheeseCake<int, 5, 2>, CheeseCake<int, 5, 2> > nieunikatowa_piekarnia(krem, ciasto, ciasto2);
+    //auto bakery4 = Bakery<float, int, 10, CherryPie<int, 1>, CherryPie<int, 1> >(CherryPie<int, 1>(3), CherryPie<int, 1>(4)); //
+    //
+  /*
+    auto bakery7 = Bakery<
+              double, 
+              int,
+              10,
+              ApplePie<int, 1, float>
+          >(
+              ApplePie<int, 1, float>(3, 1.4f)
+          );
+  */ // OK, inne typy cen (z bakery_example)
+    auto bakery = Bakery<
+      float,
+      int,
+      30,
+      CherryPie <int, 1>,
+      ApplePie<int, 1, float>,
+      ApplePie<int, 2, float>,
+      CheeseCake<int, 2, 3>
+      >(
+        CherryPie<int, 1>(3),
+        ApplePie<int, 1, float>(3, 2.4f),
+        ApplePie<int, 2, float>(2, 4.5f),
+        CheeseCake<int, 2, 3>(3)
+        );
 }
 
 int main(){
