@@ -8,7 +8,7 @@ using namespace std;
 string s = "hhhh";
     
 void cake_test(){
-    CheeseCake<long long, 5, 2> ciasto(5);
+    /*CheeseCake<long long, 5, 2> ciasto(5);
     cout << ciasto.getArea() << endl;
     
     CreamCake<int, 1, 1, double> krem(2, 3.21);
@@ -17,7 +17,7 @@ void cake_test(){
     cout << krem.getStock() << endl;
     krem.sell();
     //krem.sell(); //OK - asertion failed
-    cout << krem.getArea() << endl;
+    cout << krem.getArea() << endl;*/
     
 }
 
@@ -63,14 +63,16 @@ int main(){
     CherryPie<int, 1> ciacho(6);
     cout << ciacho.getArea() << " " << ciacho.getStock() << endl;
     
+    //CherryPie<int, 1> zle_ciacho(6, 12.3);
+    
     //ApplePie<unsigned int, 100, int> jablko(2, 12); //OK - static_asertion failed, price must be floating point
-    ApplePie<unsigned int, 100, double> jablko(2, 12.34);
+   /* ApplePie<unsigned int, 100, double> jablko(2, 12.34);
     cout << jablko.getPrice() << endl;
     cout << jablko.getArea() << endl;
     jablko.sell();
     cout << jablko.getStock() << endl;
     jablko.sell();
-    cout << jablko.getStock() << endl;
+    cout << jablko.getStock() << endl;*/
     //jablko.sell(); //OK - asertion failed
     
     //To powinno sie nie kompilowac
