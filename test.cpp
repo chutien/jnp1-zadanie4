@@ -8,7 +8,7 @@ using namespace std;
 string s = "hhhh";
     
 void cake_test(){
-    /*CheeseCake<long long, 5, 2> ciasto(5);
+    CheeseCake<long long, 5, 2> ciasto(5);
     cout << ciasto.getArea() << endl;
     
     CreamCake<int, 1, 1, double> krem(2, 3.21);
@@ -17,7 +17,7 @@ void cake_test(){
     cout << krem.getStock() << endl;
     krem.sell();
     //krem.sell(); //OK - asertion failed
-    cout << krem.getArea() << endl;*/
+    cout << krem.getArea() << endl;
     
 }
 
@@ -78,7 +78,7 @@ int main(){
     //To powinno sie nie kompilowac
     //CherryPie<string*, &s> ciacho2(6);  //OK - static_asertion failed, radius must be integral
     CherryPie<int, 3> ciacho2(6);
-    //ciacho2.sell();
+    //ciacho2.sell(); // OK - CE: no matching function
     
     cake_test();
     //bakery_test();
