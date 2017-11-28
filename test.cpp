@@ -61,16 +61,16 @@ void cake_test(){
 int main(){
     std::cout << std::setprecision(8) << std::fixed;
     CherryPie<int, 1> ciacho(6);
-    cout << ciacho.getArea() << " " << ciacho.getStock() << endl;
+    cout << /*ciacho.getArea() << " " <<*/ ciacho.getStock() << endl;
     
     //CherryPie<int, 1> zle_ciacho(6, 12.3);
     
     //ApplePie<unsigned int, 100, int> jablko(2, 12); //OK - static_asertion failed, price must be floating point
-   /* ApplePie<unsigned int, 100, double> jablko(2, 12.34);
-    cout << jablko.getPrice() << endl;
-    cout << jablko.getArea() << endl;
+   ApplePie<unsigned int, 100, double> jablko(2);
+   // cout << jablko.getPrice() << endl;
+   // cout << jablko.getArea() << endl;
     jablko.sell();
-    cout << jablko.getStock() << endl;
+    /*cout << jablko.getStock() << endl;
     jablko.sell();
     cout << jablko.getStock() << endl;*/
     //jablko.sell(); //OK - asertion failed
@@ -78,6 +78,7 @@ int main(){
     //To powinno sie nie kompilowac
     //CherryPie<string*, &s> ciacho2(6);  //OK - static_asertion failed, radius must be integral
     CherryPie<int, 3> ciacho2(6);
+    //ciacho2.sell();
     
     cake_test();
     //bakery_test();
