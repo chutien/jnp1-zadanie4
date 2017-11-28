@@ -61,18 +61,18 @@ void cake_test(){
 int main(){
     std::cout << std::setprecision(8) << std::fixed;
     CherryPie<int, 1> ciacho(6);
-    cout << /*ciacho.getArea() << " " <<*/ ciacho.getStock() << endl;
+    cout << ciacho.getArea() << " " << ciacho.getStock() << endl;
     
     //CherryPie<int, 1> zle_ciacho(6, 12.3);
     
     //ApplePie<unsigned int, 100, int> jablko(2, 12); //OK - static_asertion failed, price must be floating point
-   ApplePie<unsigned int, 100, double> jablko(2);
-   // cout << jablko.getPrice() << endl;
-   // cout << jablko.getArea() << endl;
+    ApplePie<unsigned int, 100, double> jablko(2, 12.3);
+    cout << jablko.getPrice() << endl;
+    cout << jablko.getArea() << endl;
     jablko.sell();
-    /*cout << jablko.getStock() << endl;
+    cout << jablko.getStock() << endl;
     jablko.sell();
-    cout << jablko.getStock() << endl;*/
+    cout << jablko.getStock() << endl;
     //jablko.sell(); //OK - asertion failed
     
     //To powinno sie nie kompilowac
