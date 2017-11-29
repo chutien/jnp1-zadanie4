@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 #include "pie.h"
 #include "cake.h"
-//#include "bakery.h"
+#include "bakery.h"
 
 using namespace std;
 
@@ -21,14 +21,14 @@ void cake_test(){
     
 }
 
-//void bakery_test(){
-  /*
+void bakery_test(){
+  
   CreamCake<int, 1, 1, double> krem(2, 3.21);
     CheeseCake<int, 5, 2> ciasto(5);
     CheeseCake<int, 5, 2> ciasto2(4);
     Bakery<double, int, 30, CreamCake<int, 1, 1, double>, CheeseCake<int, 5, 2> > piek(krem, ciasto);
-    cout << piek.getProfits() << endl;
-  */
+    //cout << piek.getProfits() << endl;
+  
     //Bakery<double, int, 30, CreamCake<int, 1, 1, double>, CheeseCake<int, 5, 2>, CheeseCake<int, 5, 2> > nieunikatowa_piekarnia(krem, ciasto, ciasto2);
     //auto bakery4 = Bakery<float, int, 10, CherryPie<int, 1>, CherryPie<int, 1> >(CherryPie<int, 1>(3), CherryPie<int, 1>(4)); //
     //
@@ -55,8 +55,8 @@ void cake_test(){
         ApplePie<int, 1, float>(3, 2.4f),
         ApplePie<int, 2, float>(2, 4.5f),
         CheeseCake<int, 2, 3>(3)
-        );
-}*/
+        );*/
+}
 
 int main(){
     std::cout << std::setprecision(8) << std::fixed;
@@ -81,7 +81,7 @@ int main(){
     //ciacho2.sell(); // OK - CE: no matching function
     
     cake_test();
-    //bakery_test();
+    bakery_test();
     
     return 0;
 }
