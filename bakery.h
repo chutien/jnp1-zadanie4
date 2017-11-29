@@ -10,6 +10,7 @@
 //#include "cake.h"
 
 using std::tuple;
+using std::get;
 
 //TODO ukryc
 /*template <class... P> struct is_unique;
@@ -60,7 +61,6 @@ template <class A, class P1, class... P> struct is_price_ok<A, P1, P...> :
 template <class C, class A, A shelfArea, class... P> class Bakery {
     private:
         C profits = 0;
-        //std::type_info* t;
         tuple<P...> breadstuff;
     
     public:
@@ -70,13 +70,6 @@ template <class C, class A, A shelfArea, class... P> class Bakery {
         template <class Product> int getProductStock();
         template <class Product> void restock(int additionalStock);
 };
-
-/*template<class *S, class... P> struct unfold_products {
-    S value;
-    unfold_products(S s, P... p){
-        value = s;
-    }
-};*/
 
 template <class C, class A, A shelfArea, class... P> 
     Bakery<C, A, shelfArea, P...>::Bakery(P... products)
@@ -103,21 +96,25 @@ template <class C, class A, A shelfArea, class... P> C
     return profits;    
 }
 
-//TODO reszta funkcji
 template <class C, class A, A shelfArea, class... P> template <class Product>
 void Bakery<C, A, shelfArea, P...>::sell(){
-    
+    if (get<Product>(breadstuff).getStock() > 0){
+        profits += get<Product>(breadstuff).getPrice();
+        get<Product>(breadstuff).sell();
+    }
 }
 
 template <class C, class A, A shelfArea, class... P> template <class Product>
   int Bakery<C, A, shelfArea, P...>::getProductStock(){
+    //To chyba nie jest potrzebne, bo jeśli nie będzie produktu to przeglądanie tupli się nie skompiluje
     //static_assert(is_contained<Product, P...>::value,
     //            "getProductStock got wrong parameter: Product is not valid baking type.");
-
+    return get<Product>(breadstuff).getStock();
 }
 
 template <class C, class A, A shelfArea, class... P> template <class Product>
   void Bakery<C, A, shelfArea, P...>::restock(int additionalStock){
+    //TODO
 }
 
 #endif // _BAKERY_

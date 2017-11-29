@@ -27,8 +27,19 @@ void bakery_test(){
     CheeseCake<int, 5, 2> ciasto(5);
     CheeseCake<int, 5, 2> ciasto2(4);
     Bakery<double, int, 30, CreamCake<int, 1, 1, double>, CheeseCake<int, 5, 2> > piek(krem, ciasto);
-    //cout << piek.getProfits() << endl;
-  
+    cout << piek.getProfits() << endl;
+    
+    piek.sell< CreamCake<int, 1, 1, double> >();
+    //piek.sell< CreamCake<int, 1, 155, double> >(); // OK, CE: no matching function
+    //piek.sell< CheeseCake<int, 5, 2> >(); // OK, CE: no matching function
+    cout << piek.getProfits() << endl;
+    piek.sell< CreamCake<int, 1, 1, double> >();
+    cout << piek.getProfits() << endl;
+    piek.sell< CreamCake<int, 1, 1, double> >();
+    cout << piek.getProfits() << endl; //wynik sie nie zmienia: ok, juz nie ma co sprzedawać
+    cout << piek.getProductStock< CreamCake<int, 1, 1, double> >() << endl;
+    //cout << piek.getProductStock< CreamCake<long long, 1, 1, double> >() << endl; // OK, CE: no matching function
+    
     //Bakery<double, int, 30, CreamCake<int, 1, 1, double>, CheeseCake<int, 5, 2>, CheeseCake<int, 5, 2> > nieunikatowa_piekarnia(krem, ciasto, ciasto2);
     //auto bakery4 = Bakery<float, int, 10, CherryPie<int, 1>, CherryPie<int, 1> >(CherryPie<int, 1>(3), CherryPie<int, 1>(4)); //
     //
