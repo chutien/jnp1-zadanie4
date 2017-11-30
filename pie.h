@@ -17,7 +17,9 @@ template <class R, R radius, class P> class Pie{
         int stock;
         bool is_sellable;
         P price;
-    
+        template <class C, class A, A shelfArea, class... K>
+            friend class Bakery;
+
     public:
         template <typename T = P> Pie(int initialStock, 
             typename std::enable_if<std::is_same<T, Empty>::value>::type* = 0);
