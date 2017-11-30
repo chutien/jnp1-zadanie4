@@ -53,7 +53,8 @@ void bakery_test(){
               ApplePie<int, 1, float>(3, 1.4f)
           );
   */ // OK, inne typy cen (z bakery_example)
-   /* auto bakery = Bakery<
+    
+    auto bakery = Bakery<
       float,
       int,
       30,
@@ -66,14 +67,19 @@ void bakery_test(){
         ApplePie<int, 1, float>(3, 2.4f),
         ApplePie<int, 2, float>(2, 4.5f),
         CheeseCake<int, 2, 3>(3)
-        );*/
+        );
+    bakery.restock<ApplePie<int, 1, float>>(1);
+    //bakery.restock<CherryPie<int, 1>>(42); //OK - static assertion is apple pie failed
+    //bakery.restock<CheeseCake<int, 2, 3>>(100) //OK - static assertion is apple pie failed
+    
+    //Bakery<float, int, 10, CherryPie<int, 1>, CherryPie<int, 1>>(CherryPie<int, 1>(3), CherryPie<int, 1>(4));
 }
 
 int main(){
     std::cout << std::setprecision(8) << std::fixed;
     CherryPie<int, 1> ciacho(6);
     cout << ciacho.getArea() << " " << ciacho.getStock() << endl;
-    
+    // cout << ciacho.getPrice() << endl; //OK - template argument deduction/substitution failed
     //CherryPie<int, 1> zle_ciacho(6, 12.3);
     
     //ApplePie<unsigned int, 100, int> jablko(2, 12); //OK - static_asertion failed, price must be floating point
