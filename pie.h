@@ -12,6 +12,7 @@ struct Empty {};
 
 template <class R, R radius, class P> class Pie{
     private:
+        using value_type = R;
         static constexpr double get_pi();
         static constexpr long double pi = get_pi();
         static constexpr bool is_sellable = !std::is_same<P, Empty>::value;
@@ -58,7 +59,6 @@ template <class R, R radius, class P> template <typename T>
     static_assert(std::is_integral<R>::value, 
         "Pie got wrong parameter: radius type should be integral.");
     assert(initialStock >= 0);
-    //is_sellable = false;
 }
 
 template <class R, R radius, class P> template <typename T> 
@@ -71,7 +71,6 @@ template <class R, R radius, class P> template <typename T>
     static_assert(std::is_floating_point<P>::value, 
         "Pie got wrong parameter: price type should be floating point.");
     assert(initialStock >= 0);
-    //is_sellable = true;
 }
 
 

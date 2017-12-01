@@ -11,6 +11,7 @@ struct Empty {};
 
 template <class T, T length, T width, class P> class Cake {
     private:
+        using value_type = T;
         static constexpr double get_ln2();
         static constexpr long double ln2 = get_ln2();
         static constexpr bool is_sellable = !std::is_same<P, Empty>::value;

@@ -22,6 +22,15 @@ template <class P1, class P2, class... P> struct is_unique<P1, P2, P...> :
             is_unique<P1, P2>, is_unique<P1, P...>, is_unique<P2, P...>
     >{};
 
+/*
+template <typename T> struct first_param;
+template <template <typename, typename...> class C, typename T, typename ...Ts>
+struct first_param<C<T, Ts...>>
+{
+    using type = T;
+};
+*/
+
 template <class C, class A, A shelfArea, class... P> class Bakery {
     private:
         C profits = 0;
@@ -42,12 +51,13 @@ template <class C, class A, A shelfArea, class... P> class Bakery {
             return (... + Args::getArea());
         }
 
+        template <class... K> struct dim_match : std::true_type{};
+        template <class K1, class... K> struct dim_match<K1, K...> :
+            std::conjunction<std::is_same<A, typename K1::value_type>, dim_match<K...>>{};
 
-        template <typename T> struct first_param;
-        template <template <typename, typename...> class K, typename T, typename ...Ts>
-        struct first_param<K<T, Ts...>> : std::is_same<A, T>{};
 
-    public:
+
+public:
         Bakery(P... products);
         C getProfits();
         template <class Product> void sell();
@@ -65,10 +75,10 @@ Bakery<C, A, shelfArea, P...>::Bakery(P... products) : breadstuff(products...){
                   "Bakery got wrong parameter: product types should be unique.");
     static_assert(shelfArea >= sum_areas<P...>(),
                   "Bakery got wrong parameter: total sum of product areas is greater than bakery's shelf area.");
+    static_assert(dim_match<P...>::value,
+                  "Bakery got wrong parameter: dimension types do not match.");
     static_assert(prices_match<P...>::value,
-                  "Bakery got wrong parameter: prices do not match.");
-    //static_assert()
-    // TODO reszta sprawdzeń i zapisanie parametru
+                  "Bakery got wrong parameter: price types do not match.");
 }
 
 template <class C, class A, A shelfArea, class... P>
@@ -86,8 +96,7 @@ void Bakery<C, A, shelfArea, P...>::sell(){
 
 template <class C, class A, A shelfArea, class... P> template <class Product>
 int Bakery<C, A, shelfArea, P...>::getProductStock(){
-    static_assert(first_param<Product>::value, "ELO");
-
+    //static_assert(std::is_same<typename first_param<Product>::type, A>::value, "ELO");
     return get<Product>(breadstuff).getStock();
 }
 
