@@ -21,7 +21,7 @@ template <class T, T length, T width, class P> class Cake {
         P price;
     
     public:
-        using value_type = T;
+        using dimension_type = T;
         using price_type = P;
 
         template <typename S = P> Cake(int initialStock,
@@ -52,48 +52,46 @@ constexpr double Cake<T, length, width, P>::get_ln2(){
 
 
 template <class T, T length, T width, class P> template <typename S>
-    Cake<T, length, width, P>::Cake(const int initialStock,
-        typename std::enable_if<std::is_same<S, Empty>::value>::type*)
-    : stock(initialStock){
-    // is_integral pozwala na boole i chary, nie wiem czy powinien.
+Cake<T, length, width, P>::Cake(const int initialStock,
+    typename std::enable_if<std::is_same<S, Empty>::value>::type*)
+: stock(initialStock){
     static_assert(std::is_integral<T>::value,
         "Cake got wrong parameter: lenght type should be integral.");
     assert(initialStock >= 0);
-    //is_sellable = false;
 }
 
 template <class T, T length, T width, class P> template <typename S>
-    Cake<T, length, width, P>::Cake(const int initialStock, P price,
-        typename std::enable_if<!std::is_same<S, Empty>::value>::type*)
-    : stock(initialStock), price(price){
-    // is_integral pozwala na boole i chary, nie wiem czy powinien.
+Cake<T, length, width, P>::Cake(const int initialStock, P price,
+    typename std::enable_if<!std::is_same<S, Empty>::value>::type*)
+: stock(initialStock), price(price){
     static_assert(std::is_integral<T>::value,
         "Cake got wrong parameter: lenght type should be integral.");
     static_assert(std::is_floating_point<P>::value,
         "Cake got wrong parameter: price type should be floating point.");
     assert(initialStock >= 0);
-    //is_sellable = true;
 }
 
 
-template <class T, T length, T width, class P> constexpr double Cake<T, length, width, P>::getArea(){
+template <class T, T length, T width, class P> 
+constexpr double Cake<T, length, width, P>::getArea(){
     return length * width * ln2;
 }
 
-template <class T, T length, T width, class P> int Cake<T, length, width, P>::getStock(){
+template <class T, T length, T width, class P> 
+int Cake<T, length, width, P>::getStock(){
     return stock;
 }
 
 
-template <class T, T length, T width, class P> template <typename S> void
-    Cake<T, length, width, P>::sell(
+template <class T, T length, T width, class P> template <typename S>
+void Cake<T, length, width, P>::sell(
         typename std::enable_if<!std::is_same<S, Empty>::value>::type*){
     assert(stock > 0);
     stock--;
 }
 
-template <class T, T length, T width, class P> template <typename S> P
-    Cake<T, length, width, P>::getPrice(
+template <class T, T length, T width, class P> template <typename S>
+P Cake<T, length, width, P>::getPrice(
         typename std::enable_if<!std::is_same<S, Empty>::value>::type*){
     return price;
 }

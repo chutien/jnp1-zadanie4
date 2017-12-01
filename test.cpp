@@ -73,8 +73,16 @@ void bakery_test(){
     //bakery.restock<CheeseCake<int, 2, 3>>(100) //OK - static assertion is apple pie failed
     
     //Bakery<float, int, 10, CherryPie<int, 1>, CherryPie<int, 1>>(CherryPie<int, 1>(3), CherryPie<int, 1>(4));
+    
+    //OK - CE
+//     auto bakery2 = Bakery<
+//       float,
+//       int,
+//       30
+//       >(
+//         );
 }
-/*
+
 int main(){
     std::cout << std::setprecision(8) << std::fixed;
     CherryPie<int, 1> ciacho(6);
@@ -104,4 +112,3 @@ int main(){
     
     return 0;
 }
-*/

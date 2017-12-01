@@ -37,7 +37,7 @@ namespace bakery_traits {
     template <class A, class P1, class... P>
     struct dim_match<A, P1, P...> :
             std::conjunction<
-                    std::is_same<A, typename P1::value_type>, dim_match<A, P...>
+                    std::is_same<A, typename P1::dimension_type>, dim_match<A, P...>
             >{};
 
 }
