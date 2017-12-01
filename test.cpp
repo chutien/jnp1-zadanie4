@@ -1,8 +1,8 @@
 #include<bits/stdc++.h>
-#include "pie.h"
-#include "cake.h"
-#include "bakery.h"
 
+#include "bakery.h"
+#include "cake.h"
+#include "pie.h"
 using namespace std;
 
 string s = "hhhh";
@@ -74,10 +74,11 @@ void bakery_test(){
     
     //Bakery<float, int, 10, CherryPie<int, 1>, CherryPie<int, 1>>(CherryPie<int, 1>(3), CherryPie<int, 1>(4));
 }
-
+/*
 int main(){
     std::cout << std::setprecision(8) << std::fixed;
     CherryPie<int, 1> ciacho(6);
+    //ciacho.restock(5); OK - cherrypie ma nie miec restock;
     cout << ciacho.getArea() << " " << ciacho.getStock() << endl;
     // cout << ciacho.getPrice() << endl; //OK - template argument deduction/substitution failed
     //CherryPie<int, 1> zle_ciacho(6, 12.3);
@@ -89,6 +90,7 @@ int main(){
     jablko.sell();
     cout << jablko.getStock() << endl;
     jablko.sell();
+    jablko.restock(1);
     cout << jablko.getStock() << endl;
     //jablko.sell(); //OK - asertion failed
     
@@ -102,3 +104,4 @@ int main(){
     
     return 0;
 }
+*/

@@ -7,32 +7,40 @@
 
 #ifndef _EMPTY_
 #define _EMPTY_
-struct Empty {};
+namespace empty {
+    struct Empty {};
+}
 #endif // _EMPTY_
+
+using empty::Empty;
 
 template <class R, R radius, class P> class Pie{
     private:
-        using value_type = R;
         static constexpr double get_pi();
-        static constexpr long double pi = get_pi();
-        static constexpr bool is_sellable = !std::is_same<P, Empty>::value;
+        static constexpr double pi = get_pi();
         int stock;
         P price;
-        template <class C, class A, A shelfArea, class... K>
-            friend class Bakery;
 
     public:
+        using value_type = R;
+        using price_type = P;
+
         template <typename T = P> Pie(int initialStock, 
             typename std::enable_if<std::is_same<T, Empty>::value>::type* = 0);
         
         template <typename T = P> Pie(int initialStock, P price, 
             typename std::enable_if<!std::is_same<T, Empty>::value>::type* = 0);
-        
-        int getStock();
+
         static constexpr double getArea();
-        
+
+        int getStock();
+
+        template <typename T = P> void restock(int additionalStock,
+            typename std::enable_if<!std::is_same<T, Empty>::value>::type* = 0);
+
         template <typename T = P> void sell(
             typename std::enable_if<!std::is_same<T, Empty>::value>::type* = 0);
+
         template <typename T = P> P getPrice(
             typename std::enable_if<!std::is_same<T, Empty>::value>::type* = 0);
 };
@@ -41,8 +49,8 @@ template <class R, R radius, class P> class Pie{
 // Formuła Viète'y
 template <class R, R radius, class P> constexpr double 
     Pie<R, radius, P>::get_pi(){
-    long double res = 1;
-    long double numerator = 0;
+    double res = 1;
+    double numerator = 0;
     for (int i = 0; i < 100; i++){
         numerator = sqrt(2 + numerator);
         res = res * numerator / 2;
@@ -82,6 +90,12 @@ template <class R, R radius, class P> int Pie<R, radius, P>::getStock(){
     return stock;
 }
 
+template <class R, R radius, class P> template <typename T> void
+Pie<R, radius, P>::restock(int additionalStock,
+typename std::enable_if<!std::is_same<T, Empty>::value>::type*){
+    assert(additionalStock > 0);
+    stock += additionalStock;
+}
 
 template <class R, R radius, class P> template <typename T> void 
     Pie<R, radius, P>::sell(

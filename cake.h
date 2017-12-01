@@ -6,22 +6,25 @@
 
 #ifndef _EMPTY_
 #define _EMPTY_
-struct Empty {};
+namespace empty {
+    struct Empty {};
+}
 #endif // _EMPTY_
+
+using empty::Empty;
 
 template <class T, T length, T width, class P> class Cake {
     private:
-        using value_type = T;
         static constexpr double get_ln2();
-        static constexpr long double ln2 = get_ln2();
-        static constexpr bool is_sellable = !std::is_same<P, Empty>::value;
+        static constexpr double ln2 = get_ln2();
         int stock;
         P price;
-        template <class C, class A, A shelfArea, class... K>
-            friend class Bakery;
     
     public:
-        template <typename S = P> Cake(int initialStock, 
+        using value_type = T;
+        using price_type = P;
+
+        template <typename S = P> Cake(int initialStock,
             typename std::enable_if<std::is_same<S, Empty>::value>::type* = 0);
         template <typename S = P> Cake(int initialStock, P price,
             typename std::enable_if<!std::is_same<S, Empty>::value>::type* = 0);
@@ -39,7 +42,7 @@ template <class T, T length, T width, class P> class Cake {
 // BBP-Type Formula
 template <class T, T length, T width, class P>
 constexpr double Cake<T, length, width, P>::get_ln2(){
-    long double res = 0, denom = 1;
+    double res = 0, denom = 1;
     for (int i = 0; i < 100; i++){
         res += 1.0 / (2 * i + 1) / denom;
         denom *= 9;

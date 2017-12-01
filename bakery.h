@@ -6,58 +6,53 @@
 #include <iostream>
 #include <typeinfo>
 
-//#include "pie.h"
-//#include "cake.h"
+#ifndef _EMPTY_
+#define _EMPTY_
+namespace empty {
+    struct Empty {};
+}
+#endif // _EMPTY_
 
+namespace bakery_traits {
+
+    template <class... P> struct is_unique : std::true_type{};
+    template <class P> struct is_unique<P, P> : std::false_type{};
+    template <class P1, class P2> struct is_unique<P1, P2> : std::true_type{};
+    template <class P1, class P2, class... P> struct is_unique<P1, P2, P...> :
+            std::conjunction<
+                    is_unique<P1, P2>, is_unique<P1, P...>, is_unique<P2, P...>
+            >{};
+
+    template <class C, class... P> struct prices_match : std::true_type{};
+    template <class C, class P1, class... P> struct prices_match<C, P1, P...> :
+            std::conjunction<
+                    std::disjunction<
+                            std::is_same<C, typename P1::price_type>,
+                            std::is_same<empty::Empty, typename P1::price_type>
+                    >,
+                    prices_match<C, P...>
+            >{};
+
+    template <class A, class... P> struct dim_match : std::true_type{};
+    template <class A, class P1, class... P>
+    struct dim_match<A, P1, P...> :
+            std::conjunction<
+                    std::is_same<A, typename P1::value_type>, dim_match<A, P...>
+            >{};
+
+}
+
+using namespace bakery_traits;
 using std::tuple;
 using std::get;
-
-
-//TODO ukryc
-template <class... P> struct is_unique : std::true_type{};
-template <class P> struct is_unique<P, P> : std::false_type{};
-template <class P1, class P2> struct is_unique<P1, P2> : std::true_type{};
-template <class P1, class P2, class... P> struct is_unique<P1, P2, P...> :
-    std::conjunction<
-            is_unique<P1, P2>, is_unique<P1, P...>, is_unique<P2, P...>
-    >{};
-
-/*
-template <typename T> struct first_param;
-template <template <typename, typename...> class C, typename T, typename ...Ts>
-struct first_param<C<T, Ts...>>
-{
-    using type = T;
-};
-*/
 
 template <class C, class A, A shelfArea, class... P> class Bakery {
     private:
         C profits = 0;
         tuple<P...> breadstuff;
+        template <class... Args> static constexpr auto sumAreas();
 
-        template <class... K> struct prices_match : std::true_type{};
-        template <class K, class... R> struct prices_match<K, R...> :
-            std::conjunction<
-                std::disjunction<
-                    std::is_same<C, decltype(K::price)>,
-                    std::bool_constant<!K::is_sellable>
-                >,
-                prices_match<R...>
-            >
-        {};
-
-        template <class... Args> static constexpr auto sum_areas() {
-            return (... + Args::getArea());
-        }
-
-        template <class... K> struct dim_match : std::true_type{};
-        template <class K1, class... K> struct dim_match<K1, K...> :
-            std::conjunction<std::is_same<A, typename K1::value_type>, dim_match<K...>>{};
-
-
-
-public:
+    public:
         Bakery(P... products);
         C getProfits();
         template <class Product> void sell();
@@ -73,12 +68,17 @@ Bakery<C, A, shelfArea, P...>::Bakery(P... products) : breadstuff(products...){
                   "Bakery got wrong parameter: area type should be integral.");
     static_assert(is_unique<P...>::value,
                   "Bakery got wrong parameter: product types should be unique.");
-    static_assert(shelfArea >= sum_areas<P...>(),
+    static_assert(shelfArea >= sumAreas<P...>(),
                   "Bakery got wrong parameter: total sum of product areas is greater than bakery's shelf area.");
-    static_assert(dim_match<P...>::value,
-                  "Bakery got wrong parameter: dimension types do not match.");
-    static_assert(prices_match<P...>::value,
-                  "Bakery got wrong parameter: price types do not match.");
+    static_assert(dim_match<A, P...>::value,
+                  "Bakery got wrong parameter: dimension types of products do not match.");
+    static_assert(prices_match<C, P...>::value,
+                  "Bakery got wrong parameter: price types of products do not match.");
+}
+
+template <class C, class A, A shelfArea, class... P> template <class... Args>
+constexpr auto Bakery<C, A, shelfArea, P...>::sumAreas() {
+    return (... + Args::getArea());
 }
 
 template <class C, class A, A shelfArea, class... P>
@@ -96,15 +96,13 @@ void Bakery<C, A, shelfArea, P...>::sell(){
 
 template <class C, class A, A shelfArea, class... P> template <class Product>
 int Bakery<C, A, shelfArea, P...>::getProductStock(){
-    //static_assert(std::is_same<typename first_param<Product>::type, A>::value, "ELO");
     return get<Product>(breadstuff).getStock();
 }
 
 template <class C, class A, A shelfArea, class... P> template <class Product>
 void Bakery<C, A, shelfArea, P...>::restock(int additionalStock){
-    static_assert(std::is_same<C, decltype(Product::price)>::value &&
-            Product::get_pi(), "Product should be apple pie.");
-    get<Product>(breadstuff).stock += additionalStock;
+    assert(additionalStock >= 0);
+    get<Product>(breadstuff).restock(additionalStock);
 }
 
 #endif // _BAKERY_
