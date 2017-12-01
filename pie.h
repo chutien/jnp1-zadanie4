@@ -14,8 +14,8 @@ template <class R, R radius, class P> class Pie{
     private:
         static constexpr double get_pi();
         static constexpr long double pi = get_pi();
+        static constexpr bool is_sellable = !std::is_same<P, Empty>::value;
         int stock;
-        bool is_sellable;
         P price;
         template <class C, class A, A shelfArea, class... K>
             friend class Bakery;
@@ -28,7 +28,7 @@ template <class R, R radius, class P> class Pie{
             typename std::enable_if<!std::is_same<T, Empty>::value>::type* = 0);
         
         int getStock();
-        static double getArea();
+        static constexpr double getArea();
         
         template <typename T = P> void sell(
             typename std::enable_if<!std::is_same<T, Empty>::value>::type* = 0);
@@ -52,30 +52,30 @@ template <class R, R radius, class P> constexpr double
 
 template <class R, R radius, class P> template <typename T> 
     Pie<R, radius, P>::Pie(const int initialStock, 
-        typename std::enable_if<std::is_same<T, Empty>::value>::type*) 
-    : stock(initialStock){ 
+        typename std::enable_if<std::is_same<T, Empty>::value>::type*)
+    : stock(initialStock){
     // is_integral pozwala na boole i chary, nie wiem czy powinien.
     static_assert(std::is_integral<R>::value, 
         "Pie got wrong parameter: radius type should be integral.");
     assert(initialStock >= 0);
-    is_sellable = false;
+    //is_sellable = false;
 }
 
 template <class R, R radius, class P> template <typename T> 
     Pie<R, radius, P>::Pie(const int initialStock, P price, 
-        typename std::enable_if<!std::is_same<T, Empty>::value>::type*) 
-    : stock(initialStock), price(price){ 
+        typename std::enable_if<!std::is_same<T, Empty>::value>::type*)
+    : stock(initialStock), price(price){
     // is_integral pozwala na boole i chary, nie wiem czy powinien.
     static_assert(std::is_integral<R>::value, 
         "Pie got wrong parameter: radius type should be integral.");
     static_assert(std::is_floating_point<P>::value, 
         "Pie got wrong parameter: price type should be floating point.");
     assert(initialStock >= 0);
-    is_sellable = true;
+    //is_sellable = true;
 }
 
 
-template <class R, R radius, class P> double Pie<R, radius, P>::getArea(){
+template <class R, R radius, class P> constexpr double Pie<R, radius, P>::getArea(){
     return radius * radius * pi;
 }
 
