@@ -73,16 +73,25 @@ void bakery_test(){
     //bakery.restock<CheeseCake<int, 2, 3>>(100) //OK - static assertion is apple pie failed
     
     //Bakery<float, int, 10, CherryPie<int, 1>, CherryPie<int, 1>>(CherryPie<int, 1>(3), CherryPie<int, 1>(4));
-    
-    //OK - CE
-//     auto bakery2 = Bakery<
-//       float,
-//       int,
-//       30
-//       >(
-//         );
 }
 
+void unique_test() {
+    auto bakery = Bakery<float, int, 1000,
+            CherryPie<int, 1>, CherryPie<int, 2>, CherryPie<int, 3>, CherryPie<int, 4>, CherryPie<int, 5>,
+            ApplePie<int, 1, float>, ApplePie<int, 2, float>, ApplePie<int, 3, float>, ApplePie<int, 4, float>, ApplePie<int, 5, float>,
+            CheeseCake<int, 1, 1>, CheeseCake<int, 2, 2>, CheeseCake<int, 3, 3>, CheeseCake<int, 4, 4>, CheeseCake<int, 5, 5>, /*Pie<int, 1, float>,*/
+            CreamCake<int, 1, 1, float>, CreamCake<int, 2, 2, float>, CreamCake<int, 3, 3, float>, CreamCake<int, 4, 4, float>, CreamCake<int, 5, 5, float>
+            >(
+            CherryPie<int, 1>(1), CherryPie<int, 2>(1), CherryPie<int, 3>(1), CherryPie<int, 4>(1), CherryPie<int, 5>(1),
+            ApplePie<int, 1, float>(1, 1.5f), ApplePie<int, 2, float>(1, 1.5f), ApplePie<int, 3, float>(1, 1.5f), ApplePie<int, 4, float>(1, 1.5f), ApplePie<int, 5, float>(1, 1.5f),
+            CheeseCake<int, 1, 1>(1), CheeseCake<int, 2, 2>(1), CheeseCake<int, 3, 3>(1), CheeseCake<int, 4, 4>(1), CheeseCake<int, 5, 5>(1), /*Pie<int, 1, float>(1, 1.5f),*/
+            CreamCake<int, 1, 1, float>(1, 1.5f), CreamCake<int, 2, 2, float>(1, 1.5f), CreamCake<int, 3, 3, float>(1, 1.5f), CreamCake<int, 4, 4, float>(1, 1.5f), CreamCake<int, 5, 5, float>(1, 1.5f)
+    );
+    //auto bakery1 = Bakery<float, int, 1, CherryPie<int, 1>(); //Ok - nie kompiluje sie
+    //auto appl = Cake<unsigned int, 100, 50, double>();
+
+}
+/*
 int main(){
     std::cout << std::setprecision(8) << std::fixed;
     CherryPie<int, 1> ciacho(6);
@@ -109,6 +118,7 @@ int main(){
     
     cake_test();
     bakery_test();
-    
+    unique_test();
     return 0;
 }
+*/

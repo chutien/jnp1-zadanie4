@@ -6,12 +6,10 @@
 
 #ifndef _EMPTY_
 #define _EMPTY_
-namespace empty {
+namespace emp {
     struct Empty {};
 }
 #endif // _EMPTY_
-
-using empty::Empty;
 
 template <class T, T length, T width, class P> class Cake {
     private:
@@ -25,17 +23,21 @@ template <class T, T length, T width, class P> class Cake {
         using price_type = P;
 
         template <typename S = P> Cake(int initialStock,
-            typename std::enable_if<std::is_same<S, Empty>::value>::type* = 0);
+            typename std::enable_if<
+                std::is_same<S, emp::Empty>::value>::type* = 0);
         template <typename S = P> Cake(int initialStock, P price,
-            typename std::enable_if<!std::is_same<S, Empty>::value>::type* = 0);
+            typename std::enable_if<
+                !std::is_same<S, emp::Empty>::value>::type* = 0);
 
         static constexpr double getArea();
         int getStock();
 
         template <typename S = P> void sell(
-            typename std::enable_if<!std::is_same<S, Empty>::value>::type* = 0);
+            typename std::enable_if<
+                !std::is_same<S, emp::Empty>::value>::type* = 0);
         template <typename S = P> P getPrice(
-            typename std::enable_if<!std::is_same<S, Empty>::value>::type* = 0);
+            typename std::enable_if<
+                !std::is_same<S, emp::Empty>::value>::type* = 0);
 };
 
 
@@ -53,7 +55,7 @@ constexpr double Cake<T, length, width, P>::get_ln2(){
 
 template <class T, T length, T width, class P> template <typename S>
 Cake<T, length, width, P>::Cake(const int initialStock,
-    typename std::enable_if<std::is_same<S, Empty>::value>::type*)
+    typename std::enable_if<std::is_same<S, emp::Empty>::value>::type*)
 : stock(initialStock){
     static_assert(std::is_integral<T>::value,
         "Cake got wrong parameter: lenght type should be integral.");
@@ -62,7 +64,7 @@ Cake<T, length, width, P>::Cake(const int initialStock,
 
 template <class T, T length, T width, class P> template <typename S>
 Cake<T, length, width, P>::Cake(const int initialStock, P price,
-    typename std::enable_if<!std::is_same<S, Empty>::value>::type*)
+    typename std::enable_if<!std::is_same<S, emp::Empty>::value>::type*)
 : stock(initialStock), price(price){
     static_assert(std::is_integral<T>::value,
         "Cake got wrong parameter: lenght type should be integral.");
@@ -85,20 +87,22 @@ int Cake<T, length, width, P>::getStock(){
 
 template <class T, T length, T width, class P> template <typename S>
 void Cake<T, length, width, P>::sell(
-        typename std::enable_if<!std::is_same<S, Empty>::value>::type*){
+        typename std::enable_if<!std::is_same<S, emp::Empty>::value>::type*){
     assert(stock > 0);
     stock--;
 }
 
 template <class T, T length, T width, class P> template <typename S>
 P Cake<T, length, width, P>::getPrice(
-        typename std::enable_if<!std::is_same<S, Empty>::value>::type*){
+        typename std::enable_if<!std::is_same<S, emp::Empty>::value>::type*){
     return price;
 }
 
 
-template <class T, T length, T width> using CheeseCake = Cake<T, length, width, Empty>;
+template <class T, T length, T width>
+using CheeseCake = Cake<T, length, width, emp::Empty>;
 
-template <class T, T length, T width, class P> using CreamCake = Cake<T, length, width, P>;
+template <class T, T length, T width, class P>
+using CreamCake = Cake<T, length, width, P>;
 
 #endif // _CAKE_

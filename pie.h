@@ -7,12 +7,10 @@
 
 #ifndef _EMPTY_
 #define _EMPTY_
-namespace empty {
+namespace emp {
     struct Empty {};
 }
 #endif // _EMPTY_
-
-using empty::Empty;
 
 template <class R, R radius, class P> class Pie{
     private:
@@ -25,20 +23,25 @@ template <class R, R radius, class P> class Pie{
         using dimension_type = R;
         using price_type = P;
 
-        template <typename T = P> Pie(int initialStock, 
-            typename std::enable_if<std::is_same<T, Empty>::value>::type* = 0);        
-        template <typename T = P> Pie(int initialStock, P price, 
-            typename std::enable_if<!std::is_same<T, Empty>::value>::type* = 0);
+        template <typename T = P> Pie(int initialStock,
+            typename std::enable_if<
+                std::is_same<T, emp::Empty>::value>::type* = 0);
+        template <typename T = P> Pie(int initialStock, P price,
+            typename std::enable_if<
+                !std::is_same<T, emp::Empty>::value>::type* = 0);
 
         static constexpr double getArea();
         int getStock();
 
         template <typename T = P> void restock(int additionalStock,
-            typename std::enable_if<!std::is_same<T, Empty>::value>::type* = 0);
+            typename std::enable_if<
+                !std::is_same<T, emp::Empty>::value>::type* = 0);
         template <typename T = P> void sell(
-            typename std::enable_if<!std::is_same<T, Empty>::value>::type* = 0);
+            typename std::enable_if<
+                !std::is_same<T, emp::Empty>::value>::type* = 0);
         template <typename T = P> P getPrice(
-            typename std::enable_if<!std::is_same<T, Empty>::value>::type* = 0);
+            typename std::enable_if<
+                !std::is_same<T, emp::Empty>::value>::type* = 0);
 };
 
 
@@ -57,7 +60,7 @@ constexpr double Pie<R, radius, P>::get_pi(){
 
 template <class R, R radius, class P> template <typename T> 
 Pie<R, radius, P>::Pie(const int initialStock, 
-    typename std::enable_if<std::is_same<T, Empty>::value>::type*)
+    typename std::enable_if<std::is_same<T, emp::Empty>::value>::type*)
 : stock(initialStock){
     static_assert(std::is_integral<R>::value, 
         "Pie got wrong parameter: radius type should be integral.");
@@ -66,7 +69,7 @@ Pie<R, radius, P>::Pie(const int initialStock,
 
 template <class R, R radius, class P> template <typename T> 
 Pie<R, radius, P>::Pie(const int initialStock, P price, 
-    typename std::enable_if<!std::is_same<T, Empty>::value>::type*)
+    typename std::enable_if<!std::is_same<T, emp::Empty>::value>::type*)
 : stock(initialStock), price(price){
     static_assert(std::is_integral<R>::value, 
         "Pie got wrong parameter: radius type should be integral.");
@@ -89,27 +92,29 @@ int Pie<R, radius, P>::getStock(){
 
 template <class R, R radius, class P> template <typename T>
 void Pie<R, radius, P>::restock(int additionalStock,
-    typename std::enable_if<!std::is_same<T, Empty>::value>::type*){
+    typename std::enable_if<!std::is_same<T, emp::Empty>::value>::type*){
     assert(additionalStock > 0);
     stock += additionalStock;
 }
 
 template <class R, R radius, class P> template <typename T>
 void Pie<R, radius, P>::sell(
-    typename std::enable_if<!std::is_same<T, Empty>::value>::type*){
+    typename std::enable_if<!std::is_same<T, emp::Empty>::value>::type*){
     assert(stock > 0);
     stock--;
 }
 
 template <class R, R radius, class P> template <typename T>
 P Pie<R, radius, P>::getPrice(
-        typename std::enable_if<!std::is_same<T, Empty>::value>::type*){
+        typename std::enable_if<!std::is_same<T, emp::Empty>::value>::type*){
     return price;
 }
 
 
-template <class R, R radius> using CherryPie = Pie<R, radius, Empty>;
+template <class R, R radius>
+using CherryPie = Pie<R, radius, emp::Empty>;
 
-template <class R, R radius, class P> using ApplePie = Pie<R, radius, P>;
+template <class R, R radius, class P>
+using ApplePie = Pie<R, radius, P>;
 
 #endif // _PIE_
